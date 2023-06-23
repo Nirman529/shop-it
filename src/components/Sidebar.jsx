@@ -24,7 +24,12 @@ const Sidebar = ({ children }) => {
                         </div>
                         <div className="row">
                             <NavLink to='/' className="navlink">
-                                <div className="sidebar-button text-center">Home</div>
+                                <div className="sidebar-button text-center">Dashboard</div>
+                            </NavLink>
+                        </div>
+                        <div className="row">
+                            <NavLink to='/product' className="navlink">
+                                <div className="sidebar-button text-center">Products</div>
                             </NavLink>
                         </div>
                         <div className="row">
@@ -32,19 +37,22 @@ const Sidebar = ({ children }) => {
                                 <div className="sidebar-button text-center">Cart</div>
                             </NavLink>
                         </div>
+                        
                         <div className="row">
-                            <NavLink to='/dashboard' className="navlink">
-                                <div className="sidebar-button text-center">Dashboard</div>
+                            <NavLink to='/orders' className="navlink">
+                                <div className="sidebar-button text-center">Orders</div>
                             </NavLink>
                         </div>
+                        
+                        <div className="row">
+                            <NavLink to='/completedOrders' className="navlink">
+                                <div className="sidebar-button text-center">Completed Orders</div>
+                            </NavLink>
+                        </div>
+
                         <div className="row">
                             <NavLink to='/account' className="navlink">
                                 <div className="sidebar-button text-center">Account</div>
-                            </NavLink>
-                        </div>
-                        <div className="row">
-                            <NavLink to='/product' className="navlink">
-                                <div className="sidebar-button text-center">Product</div>
                             </NavLink>
                         </div>
                         <div className="row">

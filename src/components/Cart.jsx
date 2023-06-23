@@ -11,15 +11,16 @@ const Cart = () => {
 	let dispatch = useDispatch();
 	const [currCart, setCurrCart] = useState({})
 	const cartItems = useSelector((state) => state.cart.products)
+	let totalCost = 0;
 
 	const fetchCart = async () => {
 		const response = await axios
-			.get(`${apiLink}/api/addtocart/get`, Auth)
+			.get(`${apiLink}/addtocart/get`, Auth)
 			.catch((err) => {
 				console.log('err get product api\n', err)
 			});
 		dispatch(getCartItems(response.data.data))
-		console.log('response', response)
+		// console.log('response carts', response)
 	}
 
 	useEffect(() => {
@@ -27,13 +28,12 @@ const Cart = () => {
 	}, [])
 
 	return (
-		<div className='body' key="product-body-key">
+		<div className='body mx-2' key="product-body-key">
 			<h1 className='heading'>Your Cart Items:</h1>
-
-			<table className='table table-striped'>
+			<table className='table table-striped-columns justify-content-center align-items-center text-center'>
 				<thead className='table-head'>
 					<tr className='table-row'>
-						<th> delete? </th>
+						<th> Remove Item? </th>
 						<th> Product Name </th>
 						<th> Product Image </th>
 						<th> Price </th>
@@ -43,24 +43,21 @@ const Cart = () => {
 				</thead>
 				<tbody>
 					{cartItems.map((item, key) => {
+						totalCost = totalCost + item.price;
 						return (
 							<tr key={key}>
 								<td> <button className='btn btn-danger'>delete</button> </td>
-								<td> {item.productName	} </td>
-								<td> <img src={item.productImage}/> </td>
+								<td> {item.productName} </td>
+								<td> <img src={item.productImage} className='cart-image' /> </td>
 								<td> {item.price} </td>
-								<td>
-									<button className='btn btn-primary'>+</button>
-									no
-									<button className='btn btn-primary'>-</button>
-								</td>
-								<td> Price </td>
+								<td> {item.quantity} </td>
+								<td> {item.price} </td>
 							</tr>
 						)
 					})}
 					<tr>
 						<td colSpan="5" className='text-end'> Total Cost: </td>
-						<td> { }total cost </td>
+						<td> {totalCost} </td>
 					</tr>
 				</tbody>
 			</table>

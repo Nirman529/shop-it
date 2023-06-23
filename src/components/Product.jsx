@@ -28,7 +28,7 @@ const Product = () => {
 
     const fetchProducts = async () => {
         const response = await axios
-            .get(`${apiLink}/api/product/get`, Auth)
+            .get(`${apiLink}/product/get`, Auth)
             .catch((err) => {
                 console.log('err get product api\n', err)
             });
@@ -40,7 +40,7 @@ const Product = () => {
         formData.append('productId', obj._id);
         console.log('formData', formData);
         const response = await axios
-            .post(`${apiLink}/api/addtocart/add`, {productId : obj._id}, Auth)
+            .post(`${apiLink}/addtocart/add`, {productId : obj._id}, Auth)
             .then(
                 )
                 .catch((err) => {

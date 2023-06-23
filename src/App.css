@@ -238,3 +238,14 @@ h1 {
 	/* border-radius: 10%; */
 	float: center;
 }
+
+/* ------------------------- cart ----------------------------- */
+.cart-image {
+	height: 100px;
+	width: 100px;
+	float: center;
+}
+
+.cart-table {
+	margin: 100px;
+}
