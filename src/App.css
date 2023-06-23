@@ -1,38 +1,240 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+* {
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+main {
+	width: 100%;
+	padding: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h1 {
+	justify-content: center;
+	text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* -------------------login---------------- */
+
+.login-body {
+	background: #f6f5f7;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	font-family: 'Montserrat', sans-serif;
 }
 
-.App-link {
-  color: #61dafb;
+.login-p {
+	font-size: 14px;
+	font-weight: 100;
+	line-height: 20px;
+	letter-spacing: 0.5px;
+	margin: 20px 0 30px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.login-span {
+	font-size: 12px;
+}
+
+.login-button {
+	border-radius: 20px;
+	border: 1px solid #2baeffea;
+	background-color: #2baeffea;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+.login-button:active {
+	transform: scale(0.95);
+}
+
+.login-button:focus {
+	outline: none;
+}
+
+.login-button.ghost {
+	background-color: transparent;
+	border-color: #FFFFFF;
+}
+
+.login-form {
+	background-color: #FFFFFF;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 50px;
+	height: 100%;
+	text-align: center;
+}
+
+.login-input {
+	background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 100%;
+}
+
+.form-container {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	transition: all 0.6s ease-in-out;
+}
+
+.sign-in-container {
+	left: 0;
+	width: 50%;
+	height: 100%;
+	z-index: 2;
+}
+
+.overlay-container {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 50%;
+	height: 100%;
+	overflow: hidden;
+	transition: transform 0.6s ease-in-out;
+	z-index: 100;
+}
+
+.overlay {
+	background: rgb(0, 168, 255);
+	background: -webkit-linear-gradient(to right, #2bcaff, #6741ff);
+	background: linear-gradient(90deg, rgba(0, 168, 255, 1) 0%, rgba(21, 0, 255, 0.596) 100%);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 0 0;
+	color: #FFFFFF;
+	position: relative;
+	left: -100%;
+	height: 100%;
+	width: 200%;
+	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+}
+
+.overlay-panel {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 40px;
+	text-align: center;
+	top: 0;
+	height: 100%;
+	width: 50%;
+	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+}
+
+.overlay-right {
+	right: 0;
+	transform: translateX(0);
+}
+
+/* -----------------loader---------------- */
+
+:root {
+	--loader: none;
+}
+
+.loader {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(1, 1, 1, 0.646);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	display: var(--loader);
+	justify-content: center;
+	align-items: center;
+}
+
+/* ---------------------header----------------- */
+.header-user-image {
+	height: 50px;
+	width: 50px;
+	border-radius: 51%;
+	float: center;
+	/* margin: 6px;s */
+}
+
+.header {
+	background-color: #FAF9F6;
+	/* width: calc(100% - 15%); */
+	height: fit-content;
+	margin: 0;
+}
+
+/* ----------------sidebar---------------- */
+.sidebar {
+	/* width: calc(100% - 85%); */
+	height: 100vh;
+	background: #FAF9F6;
+}
+
+.navlink {
+	text-decoration: none;
+	color: #000000;
+}
+
+.sidebar-button {
+	height: calc(100%);
+	background: #FAF9F6;
+	padding: 5px;
+	width: 100%;
+	text-decoration: none;
+	border: 0;
+}
+
+.sidebar-title {
+	width: 100%;
+	height: 50px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.sidebar-button:hover {
+	width: 100%;
+	background-color: #b085ff;
+	color: #f6f5f7;
+	transition: 0.3s;
+}
+
+.sidebar-container { 
+	display: flex;
+}
+
+.sidebar-logo {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+
+/* ------------------body--------------- */
+.body {
+	/* width: calc(100% - 15%); */
+	background: #c9eaff;
+}
+
+/* --------------------- product ------------------ */
+.product-image {
+	height: 300px;
+	/* width: 50px; */
+	/* border-radius: 10%; */
+	float: center;
 }
