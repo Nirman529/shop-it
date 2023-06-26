@@ -33,9 +33,9 @@ export const deleteFromCart = (cart) => {
     }
 }
 
-// ???????
-export const getNumberCart = () => {
+export const getCartCount = (cart) => {
     return {
-        type: "GET_NUMBER_CART",
+        type: "GET_CART_COUNT",
+        payload: cart
     }
 }
