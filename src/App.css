@@ -11,10 +11,6 @@ main {
 	padding: 20px;
 }
 
-h1 {
-	justify-content: center;
-	text-align: center;
-}
 
 /* -------------------login---------------- */
 
@@ -279,4 +275,10 @@ h1 {
 
 .cart-table {
 	margin: 100px;
+}
+
+/* --------------------------- Modal form --------------------------- */
+
+.modal-form {
+
 }
