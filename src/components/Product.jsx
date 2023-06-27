@@ -6,7 +6,7 @@ import axios from 'axios';
 import Auth from '../Auth';
 import { Modal } from 'react-bootstrap';
 import { useSelector, connect, useDispatch } from 'react-redux';
-import { fetchProducts, setProducts } from '../redux/action/products';
+import { setProducts, addProduct, updateProduct, deleteProduct } from '../redux/action/products';
 import { addToCart } from '../redux/action/cart';
 import MyStore from '../redux/store/MyStore';
 import Swal from 'sweetalert2';
@@ -15,7 +15,6 @@ import apiLink from '../apiLink';
 const Product = () => {
     // const dispatch = useDispatch();
     let firstObj = {
-        _id: "",
         productImage: "",
         productName: "",
         price: 0,
@@ -30,89 +29,36 @@ const Product = () => {
     const products = useSelector((state) => state.products.products);
 
     const [currProduct, setCurrProduct] = useState([])
-    const [editCurrProduct, setEditCurrProduct] = useState(firstObj)
+    const [editCurrProduct, setEditCurrProduct] = useState({firstObj})
     const [showBuyNow, setShowBuyNow] = useState(false)
     const [showEdit, setShowEdit] = useState(false)
-    const [showAdd, setShowAdd] = useState(false)
 
     const dispatch = useDispatch()
 
-    // ----------------- DELETE PRODUCTS -----------------
-    const deleteProduct = (item) => {
-        setCurrProduct(item);
+    // ----------------- DELETE PRODUCTS ----------------- done
+    const deleteThisProduct = (item) => {
         Swal.fire({
             icon: 'question',
-            title: 'Are You Sure You Want To Delete This Product?',
+            title: `Are You Sure You Want To Delete ${item.productName}?`,
             confirmButtonText: 'Yes!',
             showDenyButton: true,
             denyButtonText: 'No!',
         }).then((result) => {
             if (result['isConfirmed']) {
-                
-                deleteProductApi(item._id);
+                dispatch(deleteProduct(item._id))
             }
         })
     }
-
-    // Delete API implementation done
-    const deleteProductApi = async (_id) => {
-        // obj.id as query only required
-        axios
-            .delete(
-                `https://oscar-student-api.cyclic.app/api/product/delete?id=${_id}`,
-                Auth
-            ).then((response) => {
-                // get api
-            })
-            .catch((err) => console.log("err deleteapi", err));
-    };
-
-    //  ----------------- EDIT PRODUCT  -----------------
+    //  ----------------- EDIT/ADD PRODUCT  -----------------
     // Edit Modal actions
     const editModalClose = () => {
+        setCurrProduct(firstObj)
         setShowEdit(false)
     }
 
     const editModalOpen = (item) => {
         setEditCurrProduct(item);
         setShowEdit(true);
-    }
-
-    const updateProduct = async (obj) => {
-        let formData = new FormData()
-        formData.append('_id', obj._id)
-        formData.append('productName', obj.productName)
-        formData.append('productImage', obj.productImage)
-        formData.append('price', obj.price)
-        formData.append('category', obj.category)
-        formData.append('shopName', obj.shopName)
-        formData.append('mobile', obj.mobile)
-        formData.append('discount', obj.discount)
-        formData.append('discription', obj.discription)
-        formData.append('colors', obj.colors)
-
-        const res = await axios
-            .patch(
-                `${apiLink}/product/update?id=${obj._id}`,
-                formData,
-                Auth
-            )
-            .then((response) => {
-                console.log('response 1 in edits', response)
-            })
-            .catch((err) => {
-                console.log("err put method", err);
-            });
-    }
-
-    //  ----------------- ADD PRODUCT  -----------------
-    // Add Modal actions
-    const addModalClose = () => {
-        setShowAdd(false)
-    }
-
-    const addModalOpen = () => {
-        setShowAdd(true);
     }
 
     //  ----------------- BUY NOW  -----------------
@@ -139,7 +85,7 @@ const Product = () => {
     }
 
     // ----------------- FORM DATA MANIPULATE -----------------
-    const UpdateData = async (e) => {
+    const UpdateData = (e) => {
         if (e.target.files) {
             editCurrProduct[e.target.name] = e.target.files[0];
             setEditCurrProduct({ ...editCurrProduct });
@@ -148,10 +94,13 @@ const Product = () => {
         }
     };
 
+    // --------------------- FORM SUBMIT ---------------------
     const submit = (e) => {
         e.preventDefault();
-        if (editCurrProduct._id === "") {
+
+        if (editCurrProduct._id === undefined) {
             console.log(' new product submitted',)
+            dispatch(addProduct(editCurrProduct))
 
         } else {
             if (editCurrProduct.productImage === "") {
@@ -163,7 +112,12 @@ const Product = () => {
             }
             else {
                 console.log('updating to', editCurrProduct)
-                updateProduct(editCurrProduct);
+                try {
+                    dispatch(updateProduct(editCurrProduct));
+                } catch (error) {
+                    console.log('error submit button', error)
+                    setEditCurrProduct(firstObj)
+                }
             }
         }
         setEditCurrProduct(firstObj)
@@ -181,11 +135,11 @@ const Product = () => {
                     <h1 className='text-left m-3' key='product-heading-key'> Welcome to products section</h1>
                 </div>
                 <div className='col justify-content-center align-items-end text-end'>
-                    <button className='btn btn-primary m-3 p-3 text-end' onClick={() => addModalOpen()}>Add new product</button>
+                    <button className='btn btn-primary m-3 p-3 text-end' onClick={editModalOpen}>Add new product</button>
                 </div>
             </div>
 
-            <div className="row d-flex card-deck m-0" key="row-key">
+            <div className="row m-0 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-col-xxl-5 d-flex card-deck" key="row-key">
                 {products?.map((item, index) => {
                     return (<div className="col-3 mx-3 card m-2" key={index} >
                         <div className='col'>
@@ -196,7 +150,7 @@ const Product = () => {
                                     </button>
                                     <div className="dropdown-content">
                                         <button className='btn btn-warning m-0' onClick={() => editModalOpen(item)}>Edit</button>
-                                        <button className='btn btn-danger  m-0' onClick={() => deleteProduct(item)}>Delete</button>
+                                        <button className='btn btn-danger  m-0' onClick={() => deleteThisProduct(item)}>Delete</button>
                                     </div>
                                 </span>
                             </span>
@@ -228,6 +182,7 @@ const Product = () => {
                     </Modal.Header>
 
                     <Modal.Body>
+                        <div>body for buy now modal</div>
                         <p>{currProduct.discription}</p>
                     </Modal.Body>
 
@@ -236,20 +191,20 @@ const Product = () => {
                     </Modal.Footer>
                 </Modal>
 
-                {/* ------------- edit modal ------------------- */}
+                {/* ------------------- Modal ------------------- */}
                 <Modal show={showEdit} onHide={editModalClose} key="edit-modal-body">
                     <Modal.Header>
-                        <Modal.Title>Edit Product Details</Modal.Title>
+                        <Modal.Title>Product Details are:</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
-                        <form onSubmit={submit}>
+                        <form>
                             <div className='row m-1 p-1'>
                                 <div className='col'>
                                     <label>Product Name:</label>
                                 </div>
                                 <div className='col'>
-                                    <input value={editCurrProduct.productName} onChange={(e) => UpdateData(e)} id='productName' name='productName' type="text" />
+                                    <input value={editCurrProduct.productName} onChange={UpdateData} id='productName' name='productName' type="text" />
                                 </div>
                             </div>
 
@@ -258,7 +213,7 @@ const Product = () => {
                                     <label>Price:</label>
                                 </div>
                                 <div className='col'>
-                                    <input value={editCurrProduct.price} onChange={(e) => UpdateData(e)} id='price' name='price' type="text" />
+                                    <input value={editCurrProduct.price} onChange={UpdateData} id='price' name='price' type="number" />
                                 </div>
                             </div>
 
@@ -267,7 +222,7 @@ const Product = () => {
                                     <label> Category: </label>
                                 </div>
                                 <div className='col'>
-                                    <input value={editCurrProduct.category} onChange={(e) => UpdateData(e)} id='category' name='category' type="text" />
+                                    <input value={editCurrProduct.category} onChange={UpdateData} id='category' name='category' type="text" />
                                 </div>
                             </div>
 
@@ -276,7 +231,7 @@ const Product = () => {
                                     <label> Shop Name: </label>
                                 </div>
                                 <div className='col'>
-                                    <input value={editCurrProduct.shopName} onChange={(e) => UpdateData(e)} id='shopName' name='shopName' type="text" />
+                                    <input value={editCurrProduct.shopName} onChange={UpdateData} id='shopName' name='shopName' type="text" />
                                 </div>
                             </div>
 
@@ -286,7 +241,7 @@ const Product = () => {
                                 </div>
 
                                 <div className='col'>
-                                    <input value={editCurrProduct.mobile} onChange={(e) => UpdateData(e)} id='mobile' name='mobile' type="text" />
+                                    <input value={editCurrProduct.mobile} onChange={UpdateData} id='mobile' name='mobile' type="number" />
                                 </div>
                             </div>
 
@@ -295,7 +250,7 @@ const Product = () => {
                                     <label> Discount:  </label>
                                 </div>
                                 <div className='col'>
-                                    <input value={editCurrProduct.discount} onChange={(e) => UpdateData(e)} id='discount' name='discount' type="text" />
+                                    <input value={editCurrProduct.discount} onChange={UpdateData} id='discount' name='discount' type="number" />
                                 </div>
                             </div>
 
@@ -304,7 +259,7 @@ const Product = () => {
                                     <label> Discription: </label>
                                 </div>
                                 <div className='col'>
-                                    <input value={editCurrProduct.discription} onChange={(e) => UpdateData(e)} id='discription' name='discription' type="text" />
+                                    <input value={editCurrProduct.discription} onChange={UpdateData} id='discription' name='discription' type="text" />
                                 </div>
                             </div>
 
@@ -313,7 +268,7 @@ const Product = () => {
                                     <label> Colors: </label>
                                 </div>
                                 <div className='col'>
-                                    <input value={editCurrProduct.colors} onChange={(e) => UpdateData(e)} type="text" name='colors' />
+                                    <input value={editCurrProduct.colors} onChange={UpdateData} type="text" name='colors' />
                                 </div>
                             </div>
 
@@ -322,124 +277,18 @@ const Product = () => {
                                     <label> Product Image: </label>
                                 </div>
                                 <div className='col'>
-                                    <input onChange={(e) => UpdateData(e)} name='productImage' type="file" />
+                                    <input onChange={UpdateData} name='productImage' type="file" />
                                 </div>
                             </div>
 
                             <div className='col text-center m-1 p-1'>
-                                <button type="submit" className="btn btn-primary">
+                                <button type="submit" className="btn btn-primary" onClick={submit}>
                                     submit
                                 </button>
                             </div>
                             <div className='col text-center m-1 p-1'>
                                 <button className='btn btn-danger' onClick={editModalClose}>Cancel Edit</button>
                             </div>
-                        </form>
-                    </Modal.Body>
-
-                    <Modal.Footer>
-                    </Modal.Footer>
-                </Modal>
-
-                {/* ------------- Add New Item modal ------------------- */}
-                <Modal show={showAdd} onHide={addModalClose} key="add-modal-body">
-                    <Modal.Header>
-                        <Modal.Title>Add your product details</Modal.Title>
-                    </Modal.Header>
-
-                    <Modal.Body>
-                        <form onSubmit={submit}>
-                            <div className='row m-1 p-1'>
-                                <div className='col'>
-                                    <label>Product Name:</label>
-                                </div>
-                                <div className='col'>
-                                    <input value={editCurrProduct.productName} onChange={(e) => UpdateData(e)} id='productName' name='productName' type="text" />
-                                </div>
-                            </div>
-
-                            <div className='row m-1 p-1'>
-                                <div className='col'>
-                                    <label>Price:</label>
-                                </div>
-                                <div className='col'>
-                                    <input value={editCurrProduct.price} onChange={(e) => UpdateData(e)} id='price' name='price' type="text" />
-                                </div>
-                            </div>
-
-                            <div className='row m-1 p-1'>
-                                <div className='col'>
-                                    <label> Category: </label>
-                                </div>
-                                <div className='col'>
-                                    <input value={editCurrProduct.category} onChange={(e) => UpdateData(e)} id='category' name='category' type="text" />
-                                </div>
-                            </div>
-
-                            <div className='row m-1 p-1'>
-                                <div className='col'>
-                                    <label> Shop Name: </label>
-                                </div>
-                                <div className='col'>
-                                    <input value={editCurrProduct.shopName} onChange={(e) => UpdateData(e)} id='shopName' name='shopName' type="text" />
-                                </div>
-                            </div>
-
-                            <div className='row m-1 p-1'>
-                                <div className='col'>
-                                    <label> Mobile No.: </label>
-                                </div>
-                                <div className='col'>
-                                    <input value={editCurrProduct.mobile} onChange={(e) => UpdateData(e)} id='mobile' name='mobile' type="text" />
-                                </div>
-                            </div>
-
-                            <div className='row m-1 p-1'>
-                                <div className='col'>
-                                    <label> Discount:  </label>
-                                </div>
-                                <div className='col'>
-                                    <input value={editCurrProduct.discount} onChange={(e) => UpdateData(e)} id='discount' name='discount' type="text" />
-                                </div>
-                            </div>
-
-                            <div className='row m-1 p-1'>
-                                <div className='col'>
-                                    <label> Discription: </label>
-                                </div>
-                                <div className='col'>
-                                    <input value={editCurrProduct.discription} onChange={(e) => UpdateData(e)} id='discription' name='discription' type="text" />
-                                </div>
-                            </div>
-
-                            <div className='row m-1 p-1'>
-                                <div className='col'>
-                                    <label> Colors: </label>
-                                </div>
-                                <div className='col'>
-                                    <input value={editCurrProduct.colors} onChange={(e) => UpdateData(e)} type="text" name='colors' />
-                                </div>
-                            </div>
-
-                            <div className='row m-1 p-1'>
-                                <div className='col'>
-                                    <label> Product Image: </label>
-                                </div>
-                                <div className='col'>
-                                    <input onChange={(e) => UpdateData(e)} name='productImage' type="file" />
-                                </div>
-                            </div>
-
-
-                            <div className='col text-center m-1 p-1'>
-                                <button type="submit" className="btn btn-primary">
-                                    submit
-                                </button>
-                            </div>
-                            <div className='col text-center m-1 p-1'>
-                                <button className='btn btn-danger' onClick={addModalClose}>Cancel add</button>
-                            </div>
-
                         </form>
                     </Modal.Body>
 
