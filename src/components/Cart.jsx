@@ -1,14 +1,33 @@
 import React, { useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../App.css"
+import Swal from 'sweetalert2';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { getCartItems } from '../redux/action/cart'
+import { getCartItems, deleteFromCart } from '../redux/action/cart'
 
 const Cart = () => {
 	let dispatch = useDispatch();
 	// const [currCart, setCurrCart] = useState({})
 	const cartItems = useSelector((state) => state.cart.products)
 	let totalCost = 0;
+
+	// const deleteItemFromCart = (id) => {
+	// 	dispatch(deleteFromCart(id))
+	// }
+
+	const deleteItemFromCart = (item) => {
+        Swal.fire({
+            icon: 'question',
+            title: `Are You Sure You Want To Delete ${item.productName}?`,
+            confirmButtonText: 'Yes!',
+            showDenyButton: true,
+            denyButtonText: 'No!',
+        }).then((result) => {
+            if (result['isConfirmed']) {
+                dispatch(deleteFromCart(item._id))
+            }
+        })
+    }
 
 	useEffect(() => {
 		dispatch(getCartItems())
@@ -33,7 +52,7 @@ const Cart = () => {
 						return (
 							<tr key={key}>
 								<td>
-									<button className='btn btn-danger me-1'>Delete</button>
+									<button className='btn btn-danger me-1' onClick={() => deleteItemFromCart(item)}>Delete</button>
 									<button className='btn btn-primary'>Buy Now</button>
 								</td>
 								<td> {item.productName} </td>

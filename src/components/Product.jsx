@@ -2,15 +2,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import "../App.css"
 import React, { useEffect, useState } from 'react'
-import axios from 'axios';
-import Auth from '../Auth';
 import { Modal } from 'react-bootstrap';
 import { useSelector, connect, useDispatch } from 'react-redux';
 import { setProducts, addProduct, updateProduct, deleteProduct } from '../redux/action/products';
-import { addToCart } from '../redux/action/cart';
-import MyStore from '../redux/store/MyStore';
+import { addToCart, deleteFromCart } from '../redux/action/cart';
 import Swal from 'sweetalert2';
-import apiLink from '../apiLink';
 
 const Product = () => {
     // const dispatch = useDispatch();
@@ -72,18 +68,6 @@ const Product = () => {
         setShowBuyNow(true);
     }
 
-    //  ----------------- PRODUCT CART -----------------
-    const addProductToCart = async (obj) => {
-        const response = await axios
-            .post(`${apiLink}/addtocart/add`, { productId: obj._id }, Auth)
-            .then()
-            .catch((err) => {
-                console.log('err in add to cart', err)
-            });
-        MyStore.dispatch(addToCart(response.data.data))
-        console.log('response add prod to cart', response)
-    }
-
     // ----------------- FORM DATA MANIPULATE -----------------
     const UpdateData = (e) => {
         if (e.target.files) {
@@ -122,6 +106,14 @@ const Product = () => {
         }
         setEditCurrProduct(firstObj)
     };
+
+    const addThisToCart = (obj) => { 
+        Swal.fire({
+            icon: 'success',
+            title: `Added ${obj.productName} to cart`,
+        })
+        dispatch(addToCart(obj))
+    }
 
 
     useEffect(() => {
@@ -170,7 +162,7 @@ const Product = () => {
                         </ul>
                         <div className="card-body" key='card-body-key'>
                             <button className="btn btn-primary card-link" onClick={() => { buyNowModalOpen(item) }}>Buy Now</button>
-                            <button className="btn btn-info card-link" onClick={() => { addProductToCart(item) }}>Add to Cart</button>
+                            <button className="btn btn-info card-link" onClick={() => { addThisToCart(item) }}>Add to Cart</button>
                         </div>
                     </div>)
                 })}

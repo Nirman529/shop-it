@@ -1,8 +1,10 @@
 import axios from "axios"
 import Auth from "../../Auth";
+import MyStore from '../store/MyStore';
 import apiLink from "../../apiLink";
 
 export const getCartItems = () => {
+    console.log('MyStore.getstate() in getCartItems', MyStore.getState())
     return async (dispatch) => {
         await axios.get(`${apiLink}/addtocart/get`, Auth)
             .then((response) => {
@@ -14,32 +16,30 @@ export const getCartItems = () => {
     }
 }
 
-
-export const addToCart = (cart) => {
-    return {
-        type: "ADD_TO_CART",
-        payload: cart
+export const addToCart = (obj) => {
+    return async (dispatch) => {
+        await axios.post(`${apiLink}/addtocart/add`,{productId: obj._id}, Auth)
+            .then((response) => {
+                console.log('response', response)
+                if (response.isSuccess) {
+                    dispatch(getCartItems())
+                }
+            })
+            .catch((error) => {
+                console.log('error in add to cart', error)
+            })
     }
 }
 
-export const decreaseQuantity = (cart) => {
-    return {
-        type: "DECREASE_QUANTITY",
-        payload: cart
-    }
-}
-
-export const increaseQuantity = (cart) => {
-    return {
-        type: "INCREASE_QUANTITY",
-        payload: cart
-    }
-}
-
-export const deleteFromCart = (cart) => {
-    return {
-        type: "DELETE_FROM_CART",
-        payload: cart
+export const deleteFromCart = (id) => {
+    return async (dispatch) => {
+        await axios.delete(`${apiLink}/addtocart/remove?productId=${id}`, Auth)
+            .then(() => {
+                dispatch(getCartItems())
+            })
+            .catch((error) => {
+                console.log('error', error)
+            })
     }
 }
 

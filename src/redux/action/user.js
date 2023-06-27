@@ -11,7 +11,7 @@ export const fetchUser = () => {
                 dispatch({ type: "SET_USER", payload: response.data.data })
             })
             .then(() => {
-                console.log('MyStore.getState()', MyStore.getState())
+                console.log('MyStore.getState() in get user', MyStore.getState())
             })
             .catch((err) => {
                 console.log('err get user api\n', err)
