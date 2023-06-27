@@ -7,12 +7,11 @@ const initialState = {
 const productsReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_PRODUCTS: {
-            // api call for getting products
             return { ...state, products: action.payload };
         }
         case ADD_PRODUCTS: {
 
-            return {};
+            return [...state, action.payload];
         }
         default:
             return state;

@@ -1,9 +1,13 @@
 import React from 'react'
 import "../App.css"
+import { Outlet } from 'react-router'
 
-const Dashboard=()=> {
+const Dashboard = () => {
   return (
-    <div className='body'>Dashboard</div>
+    <>
+      <div className='body'>Dashboard</div>
+      <Outlet />
+    </>
   )
 }
 

@@ -1,4 +1,4 @@
-import { ADD_TO_CART, DECREASE_QUANTITY, INCREASE_QUANTITY, DELETE_FROM_CART, GET_CART_ITEMS } from '../type/cart.js';
+import { ADD_TO_CART, DECREASE_QUANTITY, INCREASE_QUANTITY, DELETE_FROM_CART, GET_CART_ITEMS, GET_CART_COUNT } from '../type/cart.js';
 
 
 const initialState = {
@@ -10,6 +10,7 @@ const initialState = {
 const cartReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TO_CART: {
+            // update to form of api call
             // Chance of error
             if (state.count === 0) {
                 let _cart = {
@@ -51,7 +52,6 @@ const cartReducer = (state = initialState, action) => {
         }
 
         case DECREASE_QUANTITY: {
-
             let quantityInCart = state.currCart[action.payload].quantityInCart;
 
             if (quantityInCart > 1) {
@@ -75,6 +75,10 @@ const cartReducer = (state = initialState, action) => {
 
         case GET_CART_ITEMS: {
 
+            return { ...state, products: action.payload };
+        }
+
+        case GET_CART_COUNT: {
             return { ...state, products: action.payload };
         }
 

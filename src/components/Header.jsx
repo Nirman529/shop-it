@@ -15,7 +15,7 @@ const Header = () => {
 
     const fetchUser = async () => {
         const response = await axios
-            .get(`${apiLink}/api/user/getUser`, Auth)
+            .get(`${apiLink}/user/getUser`, Auth)
             .catch((err) => {
                 console.log('err get user api\n', err)
             });

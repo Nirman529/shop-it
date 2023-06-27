@@ -34,7 +34,7 @@ const Login = () => {
 	const getLogin = async (object) => {
 		setLoader(true)
 		await axios
-			.post(`${apiLink}/api/user/login`, object)
+			.post(`${apiLink}/user/login`, object)
 			.then((response) => {
 				setLoader(false);
 				// console.log('response', response)

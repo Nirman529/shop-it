@@ -11,10 +11,6 @@ main {
 	padding: 20px;
 }
 
-h1 {
-	justify-content: center;
-	text-align: center;
-}
 
 /* -------------------login---------------- */
 
@@ -215,7 +211,7 @@ h1 {
 	transition: 0.3s;
 }
 
-.sidebar-container { 
+.sidebar-container {
 	display: flex;
 }
 
@@ -237,4 +233,46 @@ h1 {
 	/* width: 50px; */
 	/* border-radius: 10%; */
 	float: center;
+}
+
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+	position: fixed;
+	width: fit-content;
+	display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: none;
+	min-width: 160px;
+	/* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
+	z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content button {
+	width: 100%;
+	text-decoration: none;
+	display: block;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
+
+/* ------------------------- cart ----------------------------- */
+.cart-image {
+	height: 100px;
+	width: 100px;
+	float: center;
+}
+
+.cart-table {
+	margin: 100px;
 }
