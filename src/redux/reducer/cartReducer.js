@@ -10,6 +10,7 @@ const initialState = {
 const cartReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TO_CART: {
+            // update to form of api call
             // Chance of error
             if (state.count === 0) {
                 let _cart = {

@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import Auth from '../Auth';
 import { Modal } from 'react-bootstrap';
-import { useSelector, connect } from 'react-redux';
-import { setProducts } from '../redux/action/products';
+import { useSelector, connect, useDispatch } from 'react-redux';
+import { fetchProducts, setProducts } from '../redux/action/products';
 import { addToCart } from '../redux/action/cart';
 import MyStore from '../redux/store/MyStore';
 import Swal from 'sweetalert2';
@@ -15,7 +15,7 @@ import apiLink from '../apiLink';
 const Product = () => {
     // const dispatch = useDispatch();
     let firstObj = {
-        _id: undefined,
+        _id: "",
         productImage: "",
         productName: "",
         price: 0,
@@ -35,7 +35,9 @@ const Product = () => {
     const [showEdit, setShowEdit] = useState(false)
     const [showAdd, setShowAdd] = useState(false)
 
-    // implementation left
+    const dispatch = useDispatch()
+
+    // ----------------- DELETE PRODUCTS -----------------
     const deleteProduct = (item) => {
         setCurrProduct(item);
         console.log('currProduct to be deleted', currProduct)
@@ -48,15 +50,26 @@ const Product = () => {
         }).then((result) => {
             console.log('item deleted', item)
             if (result['isConfirmed']) {
+                
                 deleteProductApi(item._id);
             }
-        }).then(() => {
-            // .implementation in delete reducer not required just re-call the set products 
-            MyStore.dispatch(setProducts(products))
-            window.location.reload()
         })
     }
 
+    // Delete API implementation done
+    const deleteProductApi = async (_id) => {
+        // obj.id as query only required
+        axios
+            .delete(
+                `https://oscar-student-api.cyclic.app/api/product/delete?id=${_id}`,
+                Auth
+            ).then((response) => {
+                // get api
+            })
+            .catch((err) => console.log("err deleteapi", err));
+    };
+
+    //  ----------------- EDIT PRODUCT  -----------------
     // Edit Modal actions
     const editModalClose = () => {
         setShowEdit(false)
@@ -66,57 +79,6 @@ const Product = () => {
         setEditCurrProduct(item);
         setShowEdit(true);
     }
-
-    // Add Modal actions
-    const addModalClose = () => {
-        setShowAdd(false)
-    }
-
-    const addModalOpen = () => {
-        console.log('add modal open',)
-        setShowAdd(true);
-    }
-
-    // Buy Now actions
-    const buyNowModalClose = () => {
-        setShowBuyNow(false)
-    }
-
-    const buyNowModalOpen = (props) => {
-        setCurrProduct(props);
-        setShowBuyNow(true);
-    }
-
-    const fetchProducts = async () => {
-        const response = await axios
-            .get(`${apiLink}/product/get`, Auth)
-            .catch((err) => {
-                console.log('err get product api\n', err)
-            });
-        MyStore.dispatch(setProducts(response.data.data))
-    }
-
-    const addProductToCart = async (obj) => {
-        const response = await axios
-            .post(`${apiLink}/addtocart/add`, { productId: obj._id }, Auth)
-            .then()
-            .catch((err) => {
-                console.log('err in add to cart', err)
-            });
-        MyStore.dispatch(addToCart(response.data.data))
-        console.log('response add prod to cart', response)
-    }
-
-    // Delete API implementation done
-    const deleteProductApi = async (_id) => {
-        // obj.id as query only required
-        const res = await axios
-            .delete(
-                `https://oscar-student-api.cyclic.app/api/product/delete?id=${_id}`,
-                Auth
-            )
-            .catch((err) => console.log("err deleteapi", err));
-    };
 
     const updateProduct = async (obj) => {
         let formData = new FormData()
@@ -139,11 +101,6 @@ const Product = () => {
             )
             .then((response) => {
                 console.log('response 1 in edits', response)
-                fetchProducts();
-                // let index = array.findIndex((x) => x.id === obj.id);
-                // // putApi(obj);
-                // array.splice(index, 1, obj);
-                // console.log("response data for put api", response.data);
             })
             .then((response) => {
                 console.log('response 2 in edit', response)
@@ -153,6 +110,41 @@ const Product = () => {
             });
     }
 
+    //  ----------------- ADD PRODUCT  -----------------
+    // Add Modal actions
+    const addModalClose = () => {
+        setShowAdd(false)
+    }
+
+    const addModalOpen = () => {
+        console.log('add modal open',)
+        setShowAdd(true);
+    }
+
+    //  ----------------- BUY NOW  -----------------
+    // Buy Now actions
+    const buyNowModalClose = () => {
+        setShowBuyNow(false)
+    }
+
+    const buyNowModalOpen = (props) => {
+        setCurrProduct(props);
+        setShowBuyNow(true);
+    }
+
+    //  ----------------- PRODUCT CART -----------------
+    const addProductToCart = async (obj) => {
+        const response = await axios
+            .post(`${apiLink}/addtocart/add`, { productId: obj._id }, Auth)
+            .then()
+            .catch((err) => {
+                console.log('err in add to cart', err)
+            });
+        MyStore.dispatch(addToCart(response.data.data))
+        console.log('response add prod to cart', response)
+    }
+
+    // ----------------- FORM DATA MANIPULATE -----------------
     const UpdateData = async (e) => {
         if (e.target.files) {
             editCurrProduct[e.target.name] = e.target.files[0];
@@ -164,8 +156,9 @@ const Product = () => {
 
     const submit = (e) => {
         e.preventDefault();
-        if (editCurrProduct._id === undefined) {
+        if (editCurrProduct._id === "") {
             console.log(' new product submitted',)
+
 
         } else {
             if (editCurrProduct.productImage === "") {
@@ -185,8 +178,16 @@ const Product = () => {
 
 
     useEffect(() => {
-        fetchProducts();
+        // dispatch(setProducts());
+        // dispatch(fetchProducts());
+        dispatch(setProducts())
     }, [])
+
+    // useEffect(() => {
+    //     fetchProducts()
+    //     dispatch(setProducts());
+    //     console.log('products changed', products)
+    // }, [products])
 
     return (
         <div className='body' key="product-body-key">
@@ -200,7 +201,8 @@ const Product = () => {
             </div>
 
             <div className="row d-flex card-deck m-0" key="row-key">
-                {products.map((item, index) => {
+                {console.log('products', products)}
+                {products?.map((item, index) => {
                     return (<div className="col-3 mx-3 card m-2" key={index} >
                         <div className='col'>
                             <span className='d-flex justify-content-end'>
@@ -215,7 +217,7 @@ const Product = () => {
                                 </span>
                             </span>
                             <div className='row'>
-                                <img className="card-img-top product-image" src={item.productImage} alt="Card image cap" />
+                                <img className="card-img-top product-image" src={item.productImage} alt="Card cap" />
                             </div>
                         </div>
 
@@ -235,7 +237,7 @@ const Product = () => {
                     </div>)
                 })}
 
-                {/* buy now modal */}
+                {/* ------------- buy now modal ------------- */}
                 <Modal show={showBuyNow} onHide={buyNowModalClose} key="buy-now-modal-body">
                     <Modal.Header>
                         <Modal.Title>{currProduct.productName} for buy now</Modal.Title>
@@ -339,7 +341,7 @@ const Product = () => {
                                     <input onChange={(e) => UpdateData(e)} name='productImage' type="file" />
                                 </div>
                             </div>
-                            
+
                             <div className='col text-center m-1 p-1'>
                                 <button type="submit" className="btn btn-primary">
                                     submit
@@ -444,7 +446,7 @@ const Product = () => {
                                 </div>
                             </div>
 
-                            
+
                             <div className='col text-center m-1 p-1'>
                                 <button type="submit" className="btn btn-primary">
                                     submit

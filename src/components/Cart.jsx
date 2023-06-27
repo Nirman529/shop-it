@@ -4,7 +4,7 @@ import "../App.css"
 import axios from 'axios';
 import Auth from '../Auth';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { increaseQuantity, decreaseQuantity, deleteFromCart, getCartItems } from '../redux/action/cart'
+import { increaseQuantity, decreaseQuantity, deleteFromCart, getCartItems, fetchCartItems } from '../redux/action/cart'
 import apiLink from '../apiLink';
 
 const Cart = () => {
@@ -13,18 +13,20 @@ const Cart = () => {
 	const cartItems = useSelector((state) => state.cart.products)
 	let totalCost = 0;
 
-	const fetchCart = async () => {
-		const response = await axios
-			.get(`${apiLink}/addtocart/get`, Auth)
-			.catch((err) => {
-				console.log('err get product api\n', err)
-			});
-		dispatch(getCartItems(response.data.data))
-		// console.log('response carts', response)
-	}
+
+	// call function to actions
+	// const fetchCart = async () => {
+	// 	const response = await axios
+	// 		.get(`${apiLink}/addtocart/get`, Auth)
+	// 		.catch((err) => {
+	// 			console.log('err get product api\n', err)
+	// 		});
+	// 	dispatch(getCartItems(response.data.data))
+	// 	// console.log('response carts', response)
+	// }
 
 	useEffect(() => {
-		fetchCart();
+		fetchCartItems();
 	}, [])
 
 	return (
