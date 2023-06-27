@@ -40,7 +40,6 @@ const Product = () => {
     // ----------------- DELETE PRODUCTS -----------------
     const deleteProduct = (item) => {
         setCurrProduct(item);
-        console.log('currProduct to be deleted', currProduct)
         Swal.fire({
             icon: 'question',
             title: 'Are You Sure You Want To Delete This Product?',
@@ -48,7 +47,6 @@ const Product = () => {
             showDenyButton: true,
             denyButtonText: 'No!',
         }).then((result) => {
-            console.log('item deleted', item)
             if (result['isConfirmed']) {
                 
                 deleteProductApi(item._id);
@@ -102,9 +100,6 @@ const Product = () => {
             .then((response) => {
                 console.log('response 1 in edits', response)
             })
-            .then((response) => {
-                console.log('response 2 in edit', response)
-            })
             .catch((err) => {
                 console.log("err put method", err);
             });
@@ -117,7 +112,6 @@ const Product = () => {
     }
 
     const addModalOpen = () => {
-        console.log('add modal open',)
         setShowAdd(true);
     }
 
@@ -159,7 +153,6 @@ const Product = () => {
         if (editCurrProduct._id === "") {
             console.log(' new product submitted',)
 
-
         } else {
             if (editCurrProduct.productImage === "") {
                 Swal.fire({
@@ -178,16 +171,8 @@ const Product = () => {
 
 
     useEffect(() => {
-        // dispatch(setProducts());
-        // dispatch(fetchProducts());
         dispatch(setProducts())
     }, [])
-
-    // useEffect(() => {
-    //     fetchProducts()
-    //     dispatch(setProducts());
-    //     console.log('products changed', products)
-    // }, [products])
 
     return (
         <div className='body' key="product-body-key">
@@ -201,7 +186,6 @@ const Product = () => {
             </div>
 
             <div className="row d-flex card-deck m-0" key="row-key">
-                {console.log('products', products)}
                 {products?.map((item, index) => {
                     return (<div className="col-3 mx-3 card m-2" key={index} >
                         <div className='col'>
