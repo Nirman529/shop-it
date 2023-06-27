@@ -28,10 +28,8 @@ export const updateProduct = (obj) => {
     formData.append('colors', obj.colors)
 
     return async (dispatch) => {
-        console.log('obj._id in patch api', obj._id)
         await axios.patch(`${apiLink}/product/update?id=${obj._id}`, formData, Auth)
             .then(() => {
-                console.log('patch update product done', )
                 dispatch(setProducts())
             })
             .catch((error) => {
@@ -56,7 +54,6 @@ export const addProduct = (obj) => {
     return async (dispatch) => {
         await axios.post(`${apiLink}/product/add`, formData, Auth)
             .then(() => {
-                console.log('add product done', )
                 dispatch(setProducts())
             })
             .catch((error) => {
@@ -69,7 +66,6 @@ export const deleteProduct = (obj) => {
     return async (dispatch) => {
         await axios.delete(`${apiLink}/product/delete?id=${obj}`, Auth)
             .then(() => {
-                console.log('delete product done', )
                 dispatch(setProducts())
             })
             .catch((error) => {
