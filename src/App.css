@@ -11,6 +11,10 @@ main {
 	padding: 20px;
 }
 
+/* ---------------------- icons ---------------------- */
+.icon {
+	font-size: 120%;
+}
 
 /* -------------------login---------------- */
 
@@ -230,8 +234,6 @@ main {
 /* --------------------- product ------------------ */
 .product-image {
 	height: 300px;
-	/* width: 50px; */
-	/* border-radius: 10%; */
 	float: center;
 }
 
@@ -275,4 +277,10 @@ main {
 
 .cart-table {
 	margin: 100px;
+}
+
+/* --------------------------------- buy-now --------------------------------- */
+.buynow-image {
+	width: 200px;
+	height: 200px;
 }

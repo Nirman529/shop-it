@@ -29,7 +29,7 @@ const Product = () => {
     const products = useSelector((state) => state.products.products);
 
     const [currProduct, setCurrProduct] = useState([])
-    const [editCurrProduct, setEditCurrProduct] = useState({firstObj})
+    const [editCurrProduct, setEditCurrProduct] = useState({ firstObj })
     const [showBuyNow, setShowBuyNow] = useState(false)
     const [showEdit, setShowEdit] = useState(false)
 
@@ -182,8 +182,10 @@ const Product = () => {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <div>body for buy now modal</div>
-                        <p>{currProduct.discription}</p>
+                        <div className='row'>
+                            <div className='col'><img src={currProduct.productImage} className='buynow-image' /></div>
+                            <div className='col'>col-2</div>
+                        </div>
                     </Modal.Body>
 
                     <Modal.Footer>
@@ -295,7 +297,6 @@ const Product = () => {
                     <Modal.Footer>
                     </Modal.Footer>
                 </Modal>
-
             </div>
         </div>
     )
