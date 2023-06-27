@@ -1,32 +1,36 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../App.css"
-import axios from 'axios';
-import Auth from '../Auth';
+import Swal from 'sweetalert2';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { increaseQuantity, decreaseQuantity, deleteFromCart, getCartItems, fetchCartItems } from '../redux/action/cart'
-import apiLink from '../apiLink';
+import { getCartItems, deleteFromCart } from '../redux/action/cart'
 
 const Cart = () => {
 	let dispatch = useDispatch();
-	const [currCart, setCurrCart] = useState({})
+	// const [currCart, setCurrCart] = useState({})
 	const cartItems = useSelector((state) => state.cart.products)
 	let totalCost = 0;
 
-
-	// call function to actions
-	// const fetchCart = async () => {
-	// 	const response = await axios
-	// 		.get(`${apiLink}/addtocart/get`, Auth)
-	// 		.catch((err) => {
-	// 			console.log('err get product api\n', err)
-	// 		});
-	// 	dispatch(getCartItems(response.data.data))
-	// 	// console.log('response carts', response)
+	// const deleteItemFromCart = (id) => {
+	// 	dispatch(deleteFromCart(id))
 	// }
 
+	const deleteItemFromCart = (item) => {
+        Swal.fire({
+            icon: 'question',
+            title: `Are You Sure You Want To Delete ${item.productName}?`,
+            confirmButtonText: 'Yes!',
+            showDenyButton: true,
+            denyButtonText: 'No!',
+        }).then((result) => {
+            if (result['isConfirmed']) {
+                dispatch(deleteFromCart(item._id))
+            }
+        })
+    }
+
 	useEffect(() => {
-		fetchCartItems();
+		dispatch(getCartItems())
 	}, [])
 
 	return (
@@ -35,11 +39,10 @@ const Cart = () => {
 			<table className='table table-striped-columns justify-content-center align-items-center text-center'>
 				<thead className='table-head'>
 					<tr className='table-row'>
-						<th> Remove Item? </th>
+						<th> Actions </th>
 						<th> Product Name </th>
 						<th> Product Image </th>
 						<th> Price </th>
-						<th> Quantity </th>
 						<th> Price </th>
 					</tr>
 				</thead>
@@ -48,17 +51,19 @@ const Cart = () => {
 						totalCost = totalCost + item.price;
 						return (
 							<tr key={key}>
-								<td> <button className='btn btn-danger'>delete</button> </td>
+								<td>
+									<button className='btn btn-danger me-1' onClick={() => deleteItemFromCart(item)}>Delete</button>
+									<button className='btn btn-primary'>Buy Now</button>
+								</td>
 								<td> {item.productName} </td>
-								<td> <img src={item.productImage} className='cart-image' /> </td>
+								<td> <img src={item.productImage} className='cart-image' alt={key} /> </td>
 								<td> {item.price} </td>
-								<td> {item.quantity} </td>
 								<td> {item.price} </td>
 							</tr>
 						)
 					})}
 					<tr>
-						<td colSpan="5" className='text-end'> Total Cost: </td>
+						<td colSpan="4" className='text-end'> Total Cost: </td>
 						<td> {totalCost} </td>
 					</tr>
 				</tbody>

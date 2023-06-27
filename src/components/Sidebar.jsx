@@ -20,45 +20,45 @@ const Sidebar = ({ children }) => {
                 <div className='col-2 m-0'>
                     <div className="sidebar m-0">
                         <div className='row sidebar-logo p-3'>
-                            <img src={Logo} alt='side photo'/>
+                            <img src={Logo} alt='dashboard-side-pic'/>
                         </div>
                         <div className="row">
                             <NavLink to='/' className="navlink">
-                                <div className="sidebar-button text-center">Dashboard</div>
+                                <div className="sidebar-button text-begin"><i className="bi bi-speedometer2 icon me-1"></i>Dashboard</div>
                             </NavLink>
                         </div>
                         <div className="row">
                             <NavLink to='/product' className="navlink">
-                                <div className="sidebar-button text-center">Products</div>
+                                <div className="sidebar-button text-begin"><i className="bi bi-bag-check icon me-1"></i>Products</div>
                             </NavLink>
                         </div>
                         <div className="row">
                             <NavLink to='/cart' className="navlink">
-                                <div className="sidebar-button text-center">Cart</div>
+                                <div className="sidebar-button text-begin"><i className="bi bi-cart-dash icon me-1"></i>Cart</div>
                             </NavLink>
                         </div>
                         
                         <div className="row">
                             <NavLink to='/orders' className="navlink">
-                                <div className="sidebar-button text-center">Orders</div>
+                                <div className="sidebar-button text-begin"><i className="bi bi-circle icon me-1"></i>Orders</div>
                             </NavLink>
                         </div>
                         
                         <div className="row">
                             <NavLink to='/completedOrders' className="navlink">
-                                <div className="sidebar-button text-center">Completed Orders</div>
+                                <div className="sidebar-button text-begin"><i className="bi bi-check2-circle icon me-1"></i>Completed Orders</div>
                             </NavLink>
                         </div>
 
                         <div className="row">
                             <NavLink to='/account' className="navlink">
-                                <div className="sidebar-button text-center">Account</div>
+                                <div className="sidebar-button text-begin"><i className="bi bi-person icon me-1"></i>Account</div>
                             </NavLink>
                         </div>
                         <div className="row">
                             <Link to='../login'>
                                 <div className="navlink" >
-                                    <button className="sidebar-button text-center" onClick={logout}>log-out</button>
+                                    <button className="sidebar-button text-begin" onClick={logout}>log-out</button>
                                 </div>
                             </Link>
                         </div>

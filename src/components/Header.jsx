@@ -2,29 +2,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../App.css"
 import React, { useEffect } from 'react'
 import { connect, useSelector, useDispatch } from 'react-redux'
-import { setUser } from "../redux/action/user.js"
-import axios from 'axios'
-import Auth from '../Auth'
-import apiLink from '../apiLink';
+import { fetchUser } from "../redux/action/user.js"
 import { NavLink } from 'react-router-dom';
 
 const Header = () => {
     const user = useSelector((state) => state.user.user);
     const dispatch = useDispatch();
-    // console.log('user', user)
-
-    const fetchUser = async () => {
-        const response = await axios
-            .get(`${apiLink}/user/getUser`, Auth)
-            .catch((err) => {
-                console.log('err get user api\n', err)
-            });
-        dispatch(setUser(response.data.data))
-        // console.log('response', response)
-    }
 
     useEffect(() => {
-        fetchUser();
+        dispatch(fetchUser())
     }, [])
 
     return (
@@ -41,10 +27,10 @@ const Header = () => {
                             </div>
                         </NavLink>
                         <NavLink to="/account" className="navlink">
-                            <div className='d-flex m-3 justify-content-end'>{user.userName}</div>
+                            <div className='d-flex m-3 justify-content-end'><i className="bi bi-person icon"></i>{user.userName}</div>
                         </NavLink>
                         <NavLink to="/cart" className="navlink">
-                            <div>cart</div>
+                            <div><i className="bi bi-cart icon"></i>cart</div>
                         </NavLink>
                     </div>
                 </div>

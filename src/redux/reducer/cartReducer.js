@@ -79,7 +79,7 @@ const cartReducer = (state = initialState, action) => {
         }
 
         case GET_CART_COUNT: {
-            return { ...state, products: action.payload };
+            return state.count;
         }
 
         default:
