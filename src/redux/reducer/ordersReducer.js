@@ -12,7 +12,6 @@ const ordersReducers = (state = initialState, action) => {
         default: {
             return state
         }
-            
     }
 }
 

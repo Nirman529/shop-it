@@ -284,3 +284,10 @@ main {
 	width: 200px;
 	height: 200px;
 }
+
+/* --------------------------------- complete orders --------------------------------- */
+
+.complete-orders-card {
+	font-size: 300%;
+	color: #6741ff;
+}
