@@ -6,6 +6,10 @@
 	text-decoration: none;
 }
 
+h1 {
+	color:#6741ff;
+}
+
 main {
 	width: 100%;
 	padding: 20px;

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import "../App.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getCompletedOrders } from '../redux/action/completedOrders';

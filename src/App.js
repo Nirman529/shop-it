@@ -16,9 +16,10 @@ import Dashboard from "./components/Dashboard";
 const App = () => {
 
 	const [isLogin, setisLogin] = useState(localStorage.getItem('token'))
+	
 	return (
 		<div className="App">
-
+			
 			<Loader />
 			<BrowserRouter>
 				{isLogin == null ?
