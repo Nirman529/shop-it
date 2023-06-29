@@ -8,6 +8,7 @@ import { setProducts, addProduct, updateProduct, deleteProduct } from '../redux/
 import { addToCart, deleteFromCart } from '../redux/action/cart';
 import { addOrders } from '../redux/action/orders';
 import Swal from 'sweetalert2';
+import { setLoader } from '../Services/LoaderService';
 
 const Product = () => {
     // const dispatch = useDispatch();
@@ -139,6 +140,7 @@ const Product = () => {
 
 
     useEffect(() => {
+        setLoader(true)
         dispatch(setProducts())
     }, [])
 

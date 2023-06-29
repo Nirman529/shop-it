@@ -4,6 +4,9 @@ import "../App.css"
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrders, deleteOrders } from '../redux/action/orders';
+import CountDown from 'react-countdown'
+import { connect } from 'react-redux';
+import { setLoader } from '../Services/LoaderService';
 
 const Orders = () => {
 	let dispatch = useDispatch()
@@ -13,7 +16,16 @@ const Orders = () => {
 		dispatch(deleteOrders(ID))
 	}
 
+	const dateSetter = (data) => {
+		// console.log(data)
+		if (data.total == 0) {
+			console.log('date',)
+		}
+		return <div className='m-3'>Placing Order in: {data.minutes} mn : {data.seconds} sec</div>
+	}
+
 	useEffect(() => {
+		setLoader(true)
 		dispatch(getOrders())
 	}, [])
 
@@ -21,8 +33,9 @@ const Orders = () => {
 	const orders = useSelector((state) => state.orders.orders)
 	return (<div className='body'>
 		<div className='row m-0'>
-			<h1>Orders section</h1>
+			<h1 className='justify-content-center text-center'>Orders section</h1>
 		</div>
+		{setLoader(false)}
 		<div className="row m-0 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-col-xxl-5 d-flex card-deck" key="row-key">
 			{orders?.map((item, key) => {
 				return (
@@ -68,7 +81,10 @@ const Orders = () => {
 								<span className="col">Mobile:</span>
 								<span className='col text-end'>{item.mobile}</span>
 							</div>
-
+							<div className='text-danger'>
+								<CountDown date={new Date(item.orderComplateTime)} renderer={dateSetter}>
+								</CountDown>
+							</div>
 							<div className='m-2'>
 								<button className='btn btn-danger' onClick={() => cancelPurchase(item._id)}>cancel purchase</button>
 							</div>
@@ -81,4 +97,10 @@ const Orders = () => {
 	)
 }
 
-export default Orders
+// export default Products;
+const mapStateToProps = (state) => ({
+	orders: state.orders,
+})
+
+export default connect(mapStateToProps)(Orders);
+

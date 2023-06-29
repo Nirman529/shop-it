@@ -4,7 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getCompletedOrders } from '../redux/action/completedOrders';
+import { connect } from 'react-redux';
 import MyStore from '../redux/store/MyStore';
+import { setLoader } from '../Services/LoaderService';
 
 const CompletedOrders = () => {
 	let completedOrders = useSelector((state) => state.completedOrders.completedOrders)
@@ -12,13 +14,13 @@ const CompletedOrders = () => {
 
 	useEffect(() => {
 		dispatch(getCompletedOrders())
-		console.log('completedOrders', completedOrders)
+		setLoader(true)
 	}, [])
 
 	return (
 		<div className='body'>
 			{console.log('MyStore.getState()', MyStore.getState())}
-			<h1 className=''>Completed Orders</h1>
+			<h1 className='justify-content-center text-center'>Completed Orders</h1>
 
 			<div className="row m-0 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-col-xxl-5 d-flex card-deck" key="row-key">
 				{completedOrders?.map((item, index) => {
@@ -77,4 +79,10 @@ const CompletedOrders = () => {
 	)
 }
 
-export default CompletedOrders
+// export default Products;
+const mapStateToProps = (state) => ({
+	completedOrders: state.completedOrders,
+})
+
+export default connect(mapStateToProps)(CompletedOrders);
+

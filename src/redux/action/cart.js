@@ -2,6 +2,7 @@ import axios from "axios"
 import Auth from "../../Auth";
 import MyStore from '../store/MyStore';
 import apiLink from "../../apiLink";
+import { setLoader } from "../../Services/LoaderService";
 
 export const getCartItems = () => {
     console.log('MyStore.getstate() in getCartItems', MyStore.getState())
@@ -9,6 +10,9 @@ export const getCartItems = () => {
         await axios.get(`${apiLink}/addtocart/get`, Auth)
             .then((response) => {
                 dispatch({ type: "GET_CART_ITEMS", payload: response.data.data })
+            })
+            .then(() => {
+                setLoader(false)
             })
             .catch((error) => {
                 console.log('error in get cart items', error)

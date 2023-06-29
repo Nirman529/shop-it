@@ -19,8 +19,8 @@ const Header = () => {
         if (data.total == 0) {
             logout()
         }
-		return <div className='m-3'>Time remaining: {data.minutes} mn : {data.seconds} sec</div>
-	}
+        return <div className='m-3'>Log-out in: {data.minutes} mn : {data.seconds} sec</div>
+    }
 
     useEffect(() => {
         dispatch(fetchUser())
@@ -29,7 +29,7 @@ const Header = () => {
     return (
         <>
             <div className='header row align-items-center m-0'>
-                <div className='col justify-content-center text-left'>
+                <div className='col-3 justify-content-center text-left'>
                     Welcome to admin panel
                 </div>
                 <div className='col'>
@@ -45,7 +45,8 @@ const Header = () => {
                         <NavLink to="/cart" className="navlink">
                             <div className='d-flex justify-content-end align-items-center'><i className="bi bi-cart icon m-1"></i>cart</div>
                         </NavLink>
-                        <CountDown date={new Date().getTime() + 3599000} renderer={dateSetter}>
+                        {/* <CountDown date={new Date(Number(localStorage.getItem("expiresIn"))) + 3599000} renderer={dateSetter}> */}
+                        <CountDown date={new Date(JSON.parse(localStorage.getItem("expiresIn")) * 1000)} renderer={dateSetter}>
                             {/* <p>time remaining</p> */}
                         </CountDown>
                     </div>

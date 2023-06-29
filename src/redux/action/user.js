@@ -2,6 +2,7 @@ import axios from "axios";
 import Auth from "../../Auth";
 import apiLink from "../../apiLink";
 import MyStore from "../store/MyStore.js"
+import { setLoader } from "../../Services/LoaderService";
 
 
 export const fetchUser = () => {
@@ -11,6 +12,7 @@ export const fetchUser = () => {
                 dispatch({ type: "SET_USER", payload: response.data.data })
             })
             .then(() => {
+                setLoader(false)
                 console.log('MyStore.getState() in get user', MyStore.getState())
             })
             .catch((err) => {

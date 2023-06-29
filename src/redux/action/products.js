@@ -1,12 +1,16 @@
 import axios from "axios"
 import Auth from "../../Auth"
 import apiLink from "../../apiLink"
+import { setLoader } from "../../Services/LoaderService"
 
 export const setProducts = () => {
     return async (dispatch) => {
         await axios.get(`${apiLink}/product/get`, Auth)
             .then((response) => {
                 dispatch({ type: "SET_PRODUCTS", payload: response.data.data })
+            })
+            .then(() => {
+                setLoader(false)
             })
             .catch((error) => {
                 console.log('error in set products', error)

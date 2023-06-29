@@ -1,13 +1,18 @@
 import axios from "axios"
 import Auth from "../../Auth"
 import apiLink from "../../apiLink"
+import { setLoader } from "../../Services/LoaderService"
 
 export const getOrders = () => {
     return async (dispatch) => {
         await axios.get(`${apiLink}/order/get`, Auth)
             .then((response) => {
                 dispatch({ type: "GET_ORDERS", payload: response.data.data })
-            }).catch((error) => {
+            })
+            .then(() => {
+                setLoader(false)
+            })
+            .catch((error) => {
                 console.log('error in getOrders', error)
             })
     }

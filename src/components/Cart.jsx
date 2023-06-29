@@ -6,6 +6,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { getCartItems, deleteFromCart } from '../redux/action/cart'
 import { Modal } from 'react-bootstrap';
 import { addOrders } from '../redux/action/orders';
+import { setLoader } from '../Services/LoaderService';
 
 
 const Cart = () => {
@@ -66,12 +67,13 @@ const Cart = () => {
 	}
 
 	useEffect(() => {
+		setLoader(true)
 		dispatch(getCartItems())
 	}, [])
 
 	return (
 		<div className='body mx-2' key="product-body-key">
-			<h1 className=''>Your Cart Items:</h1>
+			<h1 className='justify-content-center text-center'>Your Cart Items:</h1>
 			<table className='table table-striped-columns justify-content-center align-items-center text-center m-1'>
 				<thead className='table-head'>
 					<tr className='table-row'>
@@ -83,7 +85,7 @@ const Cart = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{cartItems.map((item, key) => {
+					{cartItems?.map((item, key) => {
 						totalCost = totalCost + item.price;
 						return (
 							<tr key={key}>

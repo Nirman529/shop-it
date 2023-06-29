@@ -37,10 +37,8 @@ const Login = () => {
 			.post(`${apiLink}/user/login`, object)
 			.then((response) => {
 				setLoader(false);
-				// console.log('response', response)
-				// console.log('response.data', response.data)
-				// console.log('response.data.token', response.data.token)
 				localStorage.setItem('token', response.data.token);
+				localStorage.setItem('expiresIn', response.data.expiresIn);
 
 				setTimeout(() => {
 					window.location.href = '/';
@@ -65,7 +63,6 @@ const Login = () => {
 
 	return (
 		<>
-
 			<div className='row login-body'>
 				<div className='col'>
 					<div className='form-container sign-in-container'>
@@ -97,7 +94,6 @@ const Login = () => {
 					</div>
 				</div>
 			</div>
-
 		</>
 	)
 }
