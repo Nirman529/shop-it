@@ -19,10 +19,9 @@ const CompletedOrders = () => {
 
 	return (
 		<div className='body'>
-			{console.log('MyStore.getState()', MyStore.getState())}
 			<h1 className='justify-content-center text-center'>Completed Orders</h1>
 
-			<div className="row m-0 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-col-xxl-5 d-flex card-deck" key="row-key">
+			<div className="row m-0 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-col-xxl-5 d-flex justify-content-center align-items-center card-deck" key="row-key">
 				{completedOrders?.map((item, index) => {
 					return (
 						<div className="col-3 mx-3 card m-2" key={index} >

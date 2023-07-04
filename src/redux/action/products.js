@@ -69,7 +69,7 @@ export const addProduct = (obj) => {
 export const deleteProduct = (obj) => {
     return async (dispatch) => {
         await axios.delete(`${apiLink}/product/delete?id=${obj}`, Auth)
-            .then(() => {
+            .then((response) => {
                 dispatch(setProducts())
             })
             .catch((error) => {

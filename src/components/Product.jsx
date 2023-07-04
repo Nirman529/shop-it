@@ -43,6 +43,7 @@ const Product = () => {
             showDenyButton: true,
             denyButtonText: 'No!',
         }).then((result) => {
+            setLoader(true)
             if (result['isConfirmed']) {
                 dispatch(deleteProduct(item._id))
             }
@@ -75,11 +76,11 @@ const Product = () => {
     const buyNow = () => {
         if (count > 0) {
             Swal.fire(
-                'Purchased '+currProduct.productName+' successfully',
+                'Purchased ' + currProduct.productName + ' successfully',
                 'Check Orders menu for confirmation',
                 'success'
             )
-            dispatch(addOrders({ID:currProduct._id, quantity:count}))
+            dispatch(addOrders({ ID: currProduct._id, quantity: count }))
             buyNowModalClose()
         }
         else {
@@ -87,7 +88,7 @@ const Product = () => {
                 'Improper quantity',
                 'Keep quantity 1 or more than 1!!!',
                 'info'
-              )
+            )
         }
     }
 
@@ -106,9 +107,7 @@ const Product = () => {
         e.preventDefault();
 
         if (editCurrProduct._id === undefined) {
-            console.log(' new product submitted',)
             dispatch(addProduct(editCurrProduct))
-
         } else {
             if (editCurrProduct.productImage === "") {
                 Swal.fire({
@@ -118,15 +117,14 @@ const Product = () => {
                 })
             }
             else {
-                console.log('updating to', editCurrProduct)
                 try {
                     dispatch(updateProduct(editCurrProduct));
                 } catch (error) {
-                    console.log('error submit button', error)
                     setEditCurrProduct(firstObj)
                 }
             }
         }
+        editModalClose()
         setEditCurrProduct(firstObj)
     };
 
@@ -146,7 +144,7 @@ const Product = () => {
 
     return (
         <div className='body' key="product-body-key">
-            <div className='row m-1 p-1'>
+            <div className='row m-1 p-1 justify-content-center align-items-center'>
                 <div className='col'>
                     <h1 className='text-left m-3' key='product-heading-key'> Welcome to products section</h1>
                 </div>
@@ -155,7 +153,7 @@ const Product = () => {
                 </div>
             </div>
 
-            <div className="row m-0 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-col-xxl-5 d-flex card-deck" key="row-key">
+            <div className="row m-0 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-col-xxl-5 d-flex justify-content-center align-items-center card-deck" key="row-key">
                 {products?.map((item, index) => {
                     return (<div className="col-3 mx-3 card m-2" key={index} >
                         <div className='col'>

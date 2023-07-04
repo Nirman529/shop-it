@@ -5,7 +5,6 @@ import apiLink from "../../apiLink";
 import { setLoader } from "../../Services/LoaderService";
 
 export const getCartItems = () => {
-    console.log('MyStore.getstate() in getCartItems', MyStore.getState())
     return async (dispatch) => {
         await axios.get(`${apiLink}/addtocart/get`, Auth)
             .then((response) => {
@@ -24,7 +23,6 @@ export const addToCart = (obj) => {
     return async (dispatch) => {
         await axios.post(`${apiLink}/addtocart/add`,{productId: obj._id}, Auth)
             .then((response) => {
-                console.log('response', response)
                 if (response.isSuccess) {
                     dispatch(getCartItems())
                 }

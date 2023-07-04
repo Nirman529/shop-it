@@ -61,6 +61,7 @@ const Cart = () => {
 			denyButtonText: 'No!',
 		}).then((result) => {
 			if (result['isConfirmed']) {
+				setLoader(true)
 				dispatch(deleteFromCart(item._id))
 			}
 		})

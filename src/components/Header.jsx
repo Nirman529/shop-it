@@ -15,7 +15,6 @@ const Header = () => {
     }
 
     const dateSetter = (data) => {
-        // console.log(data)
         if (data.total == 0) {
             logout()
         }

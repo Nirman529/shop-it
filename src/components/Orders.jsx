@@ -12,15 +12,12 @@ const Orders = () => {
 	let dispatch = useDispatch()
 
 	const cancelPurchase = (ID) => {
-		console.log('item delete from purchase', ID)
+		setLoader(true)
 		dispatch(deleteOrders(ID))
 	}
 
 	const dateSetter = (data) => {
-		// console.log(data)
-		if (data.total == 0) {
-			console.log('date',)
-		}
+		
 		return <div className='m-3'>Placing Order in: {data.minutes} mn : {data.seconds} sec</div>
 	}
 
@@ -36,7 +33,7 @@ const Orders = () => {
 			<h1 className='justify-content-center text-center'>Orders section</h1>
 		</div>
 		{setLoader(false)}
-		<div className="row m-0 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-col-xxl-5 d-flex card-deck" key="row-key">
+		<div className="row m-0 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-col-xxl-5 d-flex justify-content-center align-items-center card-deck" key="row-key">
 			{orders?.map((item, key) => {
 				return (
 					<div className="col-3 mx-3 card m-2" key={key} >

@@ -22,7 +22,6 @@ export const addOrders = (obj) => {
     return async (dispatch) => {
         await axios.post(`${apiLink}/order/add`, {productId: obj.ID, quantity: obj.quantity} ,Auth)
             .then((response) => {
-                console.log('response in add orders', response)
                 dispatch(getOrders())
             }).catch((error) => {
                 console.log('error in getOrders', error)

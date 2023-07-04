@@ -13,7 +13,6 @@ export const fetchUser = () => {
             })
             .then(() => {
                 setLoader(false)
-                console.log('MyStore.getState() in get user', MyStore.getState())
             })
             .catch((err) => {
                 console.log('err get user api\n', err)

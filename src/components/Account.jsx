@@ -26,9 +26,9 @@ const Account = () => {
 				</div>
 
 				<div className='row m-0 mb-2 mt-2 ms-2 me-2 rounded border bg-white'>
-					<div className='row m-0 font-weight-bold'>
+					<h5 className='row m-0 mt-2 font-weight-bold'>
 						Personal Information:
-					</div>
+					</h5>
 
 					<div className='row m-0 mb-3 mt-3'>
 						<div className='col'>
@@ -68,7 +68,7 @@ const Account = () => {
 						</div>
 					</div>
 
-					<div className='row m-0'>
+					<div className='row m-0 mb-2'>
 						<div className='col'>
 							<div className='row text-secondary'>
 								Gender:
@@ -81,9 +81,9 @@ const Account = () => {
 				</div>
 
 				<div className='row m-0 ms-2 me-2 mb-2 rounded border bg-white'>
-					<div className='row m-0'>
+					<h5 className='row m-0 mt-2'>
 						Address:
-					</div>
+					</h5>
 
 					<div className='row m-0 mb-3 mt-3'>
 						<div className='col'>
@@ -104,7 +104,7 @@ const Account = () => {
 						</div>
 					</div>
 
-					<div className='row m-0'>
+					<div className='row m-0 mb-2'>
 						<div className='col'>
 							<div className='row text-secondary'>
 								Pin Code:

@@ -25,7 +25,16 @@ const Login = () => {
 			})
 			setObj({ ...firstObj });
 		} else {
-			await getLogin(obj);
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: 'Login Successful',
+				showConfirmButton: false,
+				timer: 1500
+			}).then(async () => {
+				  
+				await getLogin(obj);
+			})
 		}
 		setObj({ ...firstObj });
 	};
