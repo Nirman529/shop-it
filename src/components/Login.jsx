@@ -97,7 +97,7 @@ const Login = () => {
 							<div className="overlay-panel overlay-right">
 								<h1 className='login-h1'>Hello, Friend!</h1>
 								<p className='login-p'>Enter your personal details and start journey with us</p>
-								<p className='login-p'>SoftClues Solutions</p>
+								<p className='login-p'>Shop-It</p>
 							</div>
 						</div>
 					</div>
